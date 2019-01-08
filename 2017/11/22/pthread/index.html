@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/author.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Clanguage,thread,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="pthread_create()">
+<meta name="keywords" content="Clanguage,thread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程的创建和管理">
+<meta property="og:url" content="http://yoursite.com/2017/11/22/pthread/index.html">
+<meta property="og:site_name" content="Never Stop">
+<meta property="og:description" content="pthread_create()">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-22T12:22:39.749Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程的创建和管理">
+<meta name="twitter:description" content="pthread_create()">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/22/pthread/">
+
+
+
+
+
+  <title>线程的创建和管理 | Never Stop</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Never Stop</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Elias Blog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/22/pthread/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Elias">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Never Stop">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">线程的创建和管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-22T20:22:39+08:00">
+                2017-11-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Clanguage/" itemprop="url" rel="index">
+                    <span itemprop="name">Clanguage</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="pthread-create"><a href="#pthread-create" class="headerlink" title="pthread_create()"></a>pthread_create()</h2><a id="more"></a>
+<ul>
+<li>当线程开始创建时立即开始执行，<strong>主线程和新创建的线程同时交替执行</strong>，可以通过更改<code>thread()</code>函数中的内容配合使用<code>pthread_join()</code>来观察两个线程的运行和输出情况。</li>
+<li>若新建线程的执行时间较长，又未在主函数中使用<code>pthread_join()</code>函数，则新建线程则不会运行到最后，会被中途停止。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">thread</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">	<span class="keyword">pthread_t</span> id;</span><br><span class="line">	<span class="keyword">int</span> ret;</span><br><span class="line"><span class="comment">//    pthread_join(pthread_self(), NULL);</span></span><br><span class="line">	ret = pthread_create(&amp;id, <span class="literal">NULL</span>, (<span class="keyword">void</span> *)thread, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">if</span>(ret!=<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"error in creating new thread\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"the address of main thread is %p\n"</span>,pthread_self());</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"this is the main thread \n"</span>);</span><br><span class="line"><span class="comment">//    pthread_join(id, NULL);</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">thread</span><span class="params">()</span></span>&#123;</span><br><span class="line">	sleep(<span class="number">0.001</span>);</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\n"</span>,pthread_self());</span><br><span class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>; i&lt; <span class="number">5</span>;i++)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"this is thread %d\n"</span>,i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##Peteson算法  </p>
+<p>###p0<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">	flag[<span class="number">0</span>] = TRUE;</span><br><span class="line">	turn = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(flag[<span class="number">1</span>]&amp;&amp;turn==<span class="number">1</span>) ;</span><br><span class="line">	<span class="comment">//临界区</span></span><br><span class="line">	flag[<span class="number">0</span>] = FALSE;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###p1<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">	flag[<span class="number">1</span>] = TRUE;</span><br><span class="line">	turn = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(flag[<span class="number">0</span>]&amp;&amp;turn==<span class="number">0</span>);</span><br><span class="line">	<span class="comment">//临界区</span></span><br><span class="line">	flag[<span class="number">1</span>] = FALSE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>##利用信号量解决<strong>读者写者问题</strong></p>
+<p>问题描述：</p>
+<ul>
+<li>允许多个读者同时读取数据。</li>
+<li>同时只有一个写者能够访问该数据。</li>
+<li>读者优先<ul>
+<li>只要有读者进入临界区，写者不能更新数据。</li>
+<li>在最后一名读者离开临界区之前，写者一直等待</li>
+</ul>
+</li>
+<li>写者优先<pre><code>- 如果一个写者等待进入临界区，其之后的读者不能读。
+</code></pre></li>
+</ul>
+<p>###读者优先</p>
+<ul>
+<li>注意第一个读者到达和最后一个读者离开。</li>
+<li>互斥关系：某个写者正在写数据时，不允许读者和其它写者访问数据集</li>
+<li>同步关系：最后一名读者与写者同步</li>
+<li>解决读者写者问题需要以下数据结构：</li>
+<li>整型变量 readcount： 读者的数量，初始化为 0。用来表示第一个读者到达和最后一名读者离开。</li>
+<li>信号量 mutex：多个读者同时更新readcount, 初始化为 1.</li>
+<li>信号量wrt：表示数据集是否可写, 初始化为 1.</li>
+</ul>
+<blockquote>
+<p>第一个读者来时，关闭该信号，wait(wrt).<br><br>最后一个读者走时打开该信号，signal(wrt).<br><br>一个写者正在写时关闭该信号，wait(wrt).<br><br>一个写者写完后打开该信号，signal(wrt).<br></p>
+</blockquote>
+<p>####读者进程<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">	wait(mutex);</span><br><span class="line">	<span class="keyword">if</span>(readcount==<span class="number">0</span>) wait(wrt);</span><br><span class="line">	readcount++;</span><br><span class="line">	signal(mutex);</span><br><span class="line">	<span class="comment">//reading</span></span><br><span class="line">	wait(mutex);</span><br><span class="line">	readcount--;</span><br><span class="line">	<span class="keyword">if</span>(readcount==<span class="number">0</span>) signal(wrt);</span><br><span class="line">	signal(mutex);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####写者进程<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">	wait(wrt);</span><br><span class="line">	<span class="comment">//writing</span></span><br><span class="line">	signal(wrt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><em>What happen  if  a writer finish writing , and both readers and writer are waiting ?</em><br><br><strong>Reader first mechanism can not be useful when this situation occured. It is decided by the cpu scheduling.</strong></li>
+</ol>
+<p>###写者优先</p>
+<ul>
+<li>写者等待之后的读者不能再进入临界区</li>
+<li>当读者到达时：</li>
+</ul>
+<blockquote>
+<p>如果有读者正在读，而且没有写者等待，则读者进入进入临界区.<br>如果有读者正在读，且有写者等待, 则读者等待.<br>如果有写者正在写，则读者等待.</p>
+</blockquote>
+<ul>
+<li>当写者到达：</li>
+</ul>
+<blockquote>
+<p>如果没有读者和写者，则写者进入临界区<br>如果读者正在读，则写者等待.<br>如果其它写者正在写，则写者等待</p>
+</blockquote>
+<p>互斥关系：写者之间，写者与读者<br><br>同步关系：最后一个写者与读者之间同步（写完再读) <br><br>整型变量 readcount 初始化 0，来读者+1，读者离开-1<br><br>互斥信号量 Semaphoer mutex1 初始化 1.<br><br>          读者修改共享变量 readcount.的互斥信号量<br><br>互斥信号量Semaphoer read 初始化 1<br><br>           数据集是否可读。<br><br>           第一个写者来时，关闭该信号；最后一个写者离开时，打开该信号。<br><br>           读者来时测试该信号，如果测试通过打开该信号。<br><br>整型变量writecount 初始化 0. <br><br>互斥信号量Semaphore mutex2 初始化 1.<br><br>          写者修改共享变量 writecount的互斥关系<br><br>信号量 wrt 初始化 1.<br><br>           表示数据集是否可写。写者之间的互斥，以及写者与第一个读者之间的互斥<br></p>
+<p>####读者进程<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">	wait(read);</span><br><span class="line">	wait(mutex1);</span><br><span class="line">	readcount++;</span><br><span class="line">	<span class="keyword">if</span>(readcount==<span class="number">1</span>) wait(wrt);</span><br><span class="line">	signal(mutex1);</span><br><span class="line">	signal(read);</span><br><span class="line">	<span class="comment">//reading</span></span><br><span class="line">	wait(mutex1);</span><br><span class="line">	readcount--;</span><br><span class="line">	<span class="keyword">if</span>(readcount==<span class="number">0</span>) signal(wrt);</span><br><span class="line">	signal(mutex1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####写者进程<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">	wait(mutex2);</span><br><span class="line">	writecount++;</span><br><span class="line">	<span class="keyword">if</span>(writecount==<span class="number">1</span>) wait(read);</span><br><span class="line">	signal(mutex2);</span><br><span class="line">	wait(wrt);</span><br><span class="line">	<span class="comment">//writing</span></span><br><span class="line">	signal(wrt);</span><br><span class="line">	wait(mutex2);</span><br><span class="line">	writecount--;</span><br><span class="line">	<span class="keyword">if</span>(writecount==<span class="number">0</span>) signal(read);</span><br><span class="line">	signal(mutex2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###理发师理发问题<br> 问题描述：</p>
+<p> 一个理发店由一个有几张椅子的等待室和一个放有一张理发椅的理发室组成。</p>
+<ol>
+<li>若没有要理发的顾客，则理发师去睡觉；</li>
+<li>若一顾客进入理发店，理发师正在为别人理发，且等待室有空椅子，则该顾客就找张椅子按顺序坐下；</li>
+<li>若一顾客进入理发店，理发师在睡觉，则叫醒理发师为该顾客理发；</li>
+<li>若一顾客进入理发店且所有椅子都被占用了，则该顾客就离开。</li>
+</ol>
+<p><strong>定义信号量：</strong></p>
+<ul>
+<li>barbers=0： </li>
+<li>customers=0:</li>
+<li>mutex=1:</li>
+</ul>
+<p><strong>共享变量</strong></p>
+<ul>
+<li>waiting:等候理发的顾客数</li>
+<li>CHAIRS:椅子数</li>
+</ul>
+<p>####理发师进程<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">	wait(customers);</span><br><span class="line">	wait(mutex);</span><br><span class="line">	waiting--;</span><br><span class="line">	signal(barbers);</span><br><span class="line">	signal(mutex);</span><br><span class="line">	<span class="comment">//理发ing</span></span><br><span class="line">	<span class="comment">// wait(mutex);</span></span><br><span class="line">	<span class="comment">// if(waiting==0) &#123;</span></span><br><span class="line">	<span class="comment">// 	signal(mutex);</span></span><br><span class="line">	<span class="comment">// 	break;</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####顾客进程<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">	wait(mutex);</span><br><span class="line">	<span class="keyword">if</span>(waiting&lt;CHAIRS)&#123;</span><br><span class="line">		waiting++;</span><br><span class="line">		signal(mutex);</span><br><span class="line">		wait(barbers);</span><br><span class="line">		<span class="comment">//理发ing</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="comment">//离开</span></span><br><span class="line">		signal(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Elias 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Elias 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Clanguage/" rel="tag"># Clanguage</a>
+          
+            <a href="/tags/thread/" rel="tag"># thread</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/22/GitHub/" rel="next" title="git学习笔记">
+                <i class="fa fa-chevron-left"></i> git学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/22/maven学习笔记/" rel="prev" title="maven学习笔记">
+                maven学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/author.png" alt="Elias">
+            
+              <p class="site-author-name" itemprop="name">Elias</p>
+              <p class="site-description motion-element" itemprop="description">Too simple, sometimes naive.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/bigbiggo999" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.jianshu.com/users/cd002734b69a/timeline" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.uisdc.com/" title="优设" target="_blank">优设</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.zhangxinxu.com/" title="张鑫旭" target="_blank">张鑫旭</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.alloyteam.com/nav/" title="Web前端导航" target="_blank">Web前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.36zhen.com/t?id=3448" title="前端书籍资料" target="_blank">前端书籍资料</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ife.baidu.com/" title="百度前端技术学院" target="_blank">百度前端技术学院</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wf.uisdc.com/cn/" title="google前端开发基础" target="_blank">google前端开发基础</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pthread-create"><span class="nav-number">1.</span> <span class="nav-text">pthread_create()</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Elias</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/author.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="implement Serializable解释serialization 允许你将实现了Serializable接口的对象转换为字节序列，这些字节序列可以被完全存储以备以后重新生成原来的对象。  spring 结合Junit测试时配置文件路径问题配置文件路径 spring-jdbc的crud spring-jdbc和spring-data-jpa 和mybatis对比 Springboot 中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring笔记">
+<meta property="og:url" content="http://yoursite.com/2018/01/17/Spring笔记/index.html">
+<meta property="og:site_name" content="Never Stop">
+<meta property="og:description" content="implement Serializable解释serialization 允许你将实现了Serializable接口的对象转换为字节序列，这些字节序列可以被完全存储以备以后重新生成原来的对象。  spring 结合Junit测试时配置文件路径问题配置文件路径 spring-jdbc的crud spring-jdbc和spring-data-jpa 和mybatis对比 Springboot 中">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/Users/admin/Documents/GitHub/MarkdownPhotos/BlogPhotos/springMVC.jpg">
+<meta property="og:image" content="http://yoursite.com/Users/admin/Documents/GitHub/MarkdownPhotos/BlogPhotos/json.png">
+<meta property="og:updated_time" content="2018-05-31T08:02:15.299Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring笔记">
+<meta name="twitter:description" content="implement Serializable解释serialization 允许你将实现了Serializable接口的对象转换为字节序列，这些字节序列可以被完全存储以备以后重新生成原来的对象。  spring 结合Junit测试时配置文件路径问题配置文件路径 spring-jdbc的crud spring-jdbc和spring-data-jpa 和mybatis对比 Springboot 中">
+<meta name="twitter:image" content="http://yoursite.com/Users/admin/Documents/GitHub/MarkdownPhotos/BlogPhotos/springMVC.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/17/Spring笔记/">
+
+
+
+
+
+  <title>Spring笔记 | Never Stop</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Never Stop</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Elias Blog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/17/Spring笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Elias">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Never Stop">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T23:46:44+08:00">
+                2018-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h3 id="implement-Serializable解释"><a href="#implement-Serializable解释" class="headerlink" title="implement Serializable解释"></a><a href="http://blog.csdn.net/ukouryou/article/details/4132443" target="_blank" rel="noopener">implement Serializable解释</a></h3><pre><code>serialization 允许你将实现了Serializable接口的对象转换为字节序列，这些字节序列可以被完全存储以备以后重新生成原来的对象。 
+</code></pre><h3 id="spring-结合Junit测试时配置文件路径问题"><a href="#spring-结合Junit测试时配置文件路径问题" class="headerlink" title="spring 结合Junit测试时配置文件路径问题"></a>spring 结合Junit测试时配置文件路径问题</h3><p><a href="https://blog.csdn.net/smile_summer/article/details/51753809" target="_blank" rel="noopener">配置文件路径</a></p>
+<p><a href="https://www.cnblogs.com/tuhooo/p/6491913.html" target="_blank" rel="noopener">spring-jdbc的crud</a></p>
+<p><a href="https://blog.csdn.net/yunzhonmghe/article/details/78069449" target="_blank" rel="noopener">spring-jdbc和spring-data-jpa 和mybatis对比</a></p>
+<h3 id="Springboot-中aop"><a href="#Springboot-中aop" class="headerlink" title="Springboot 中aop"></a>Springboot 中aop</h3><p><a href="https://www.cnblogs.com/bigben0123/p/7779357.html" target="_blank" rel="noopener">springboot 中实现面向切面编程</a></p>
+<h3 id="Sping中IOC和DI"><a href="#Sping中IOC和DI" class="headerlink" title="Sping中IOC和DI"></a>Sping中IOC和DI</h3><p><a href="http://blog.csdn.net/cheetahlover/article/details/51600991" target="_blank" rel="noopener">依赖注入</a>:</p>
+<pre><code>1.     使用属性的setter进行进行注入,
+</code></pre><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userBiz"</span> <span class="attr">class</span>=<span class="string">"com.text.biz.impl.UserBizImpl"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userDao"</span> <span class="attr">ref</span> = <span class="string">"userDao"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code>2. 使用构造器进行注入, 利用constructor节点进行配置属性值,
+</code></pre><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"personDao"</span> <span class="attr">class</span>=<span class="string">"com.aptech.dao.impl.PersonDAOImpl"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"personBiz"</span> <span class="attr">class</span>=<span class="string">"com.aptech.biz.impl.PersonBizImpl"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"0"</span> <span class="attr">type</span>=<span class="string">"com.aptech.dao.PersonDAO"</span><span class="attr">ref</span>=<span class="string">"personDao"</span>&gt;</span><span class="tag">&lt;<span class="name">constructor-arg</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"1"</span> <span class="attr">value</span>=<span class="string">"Spring学习"</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code>3. 使用字段field注入,在java代码中使用注解的方式进行装配，在代码中加入@Resource或者@Autowired
+    1. 配置spring的xml配置文件applicationContext.xml
+</code></pre><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span>  </span></span><br><span class="line"><span class="tag">  </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span>  </span></span><br><span class="line"><span class="tag">  </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>  </span></span><br><span class="line"><span class="tag">  </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span>  </span></span><br><span class="line"><span class="tag">  </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span>  </span></span><br><span class="line"><span class="tag">  </span></span><br><span class="line"><span class="tag"><span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans   </span></span></span><br><span class="line"><span class="tag"><span class="string">  </span></span></span><br><span class="line"><span class="tag"><span class="string">http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  </span></span></span><br><span class="line"><span class="tag"><span class="string">  </span></span></span><br><span class="line"><span class="tag"><span class="string">http://www.springframework.org/schema/context  </span></span></span><br><span class="line"><span class="tag"><span class="string">  </span></span></span><br><span class="line"><span class="tag"><span class="string">http://www.springframework.org/schema/context/spring-context-2.5.xsd  </span></span></span><br><span class="line"><span class="tag"><span class="string">  </span></span></span><br><span class="line"><span class="tag"><span class="string">"</span>&gt;</span>  </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package:</span>"<span class="attr">org.example</span>" <span class="attr">name-generator</span>=<span class="string">"org.example.MyNameGenerator"</span> <span class="attr">scope-resolver</span>=<span class="string">"org.example.MyScopeResolver"</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--自己实现一个命令的类,继承自AnnotationBeanNameGenerator--&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">&lt;!-- 指定那些类被自动发现并注册bean --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">context:include-filter</span> <span class="attr">type</span> = <span class="string">"regex"</span>&gt;</span></span><br><span class="line">		expression=".*Stub.*Repository"</span><br><span class="line">	<span class="tag">&lt;/<span class="name">context:include-filter</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">context:exclude-filter</span> <span class="attr">type</span>=<span class="string">"annotation"</span>&gt;</span></span><br><span class="line">	   expression ="org.springframework.stereotype.Repository"</span><br><span class="line">	<span class="tag">&lt;/<span class="name">context:exclude-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context</span>&gt;</span><span class="comment">&lt;!-- 这个较常用包含👇的那个 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:annotation-config</span>&gt;</span><span class="tag">&lt;/<span class="name">context:annotation-config</span>&gt;</span> </span><br><span class="line">  </span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="注解笔记"><a href="#注解笔记" class="headerlink" title="注解笔记"></a>注解笔记</h3><p><a href="https://www.cnblogs.com/peida/archive/2013/04/24/3036689.html" target="_blank" rel="noopener">元注解</a>:</p>
+<pre><code>- @Documented 表示使用该注解的元素应被javadoc或类似工具文档化
+- @Target 表示支持注解的程序元素的种类，一些可能的值有TYPE,METHOD,CONSTRUCTOR,FIELD等等。如果Target元注解不存在，那么该注解就可以使用在任何程序元素之上。
+- @Retention表示注解类型保留时间的长短，它接收RetentionPolicy参数，可能的值有SOURCE,CLASS,以及RUNTIME。
+- @Inherited 阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类。
+</code></pre><hr>
+<ol>
+<li>@autowired 按照类型自动装配,@Resource(name=” “) 按照名称进行装配 @autowire(require = false) ,默认为false,一个类中只能有一个request=true,在找不到相对应的bean不会抛出异常. 也可以用于装配数组,list,map.</li>
+<li>@Resource 也可以用来装配bean,默认指定安装name装配,可以替代@Autowired</li>
+<li><p>@Qualifier,装配时使用,配合@autowire,,注解来指定Bean的名称</p>
+</li>
+<li><p>@component是一个通用注解.可用于任何bean,推荐用@Service @repository @Controller更针对性的使用注解.</p>
+</li>
+<li>@Service 注解service类,即服务层.</li>
+<li>@repository 注解DAO类,即持久层</li>
+<li><p>@Controller用于Controller,即控制层.    </p>
+</li>
+<li><p>@Configuration 用于注解配置类,与搭配使用</p>
+</li>
+<li>@Scope即可，默认是”singleton”即单例，”prototype”表示原型即每次都会new一个新的出来。</li>
+<li>@Required 用于bean属性的setter方法,受影响的bean属性必须在配置时被填充</li>
+<li>@RunWith(BlockJunit4ClassRunner.class)指定执行类</li>
+</ol>
+<h3 id="java代理的实现"><a href="#java代理的实现" class="headerlink" title="java代理的实现"></a><a href="http://www.jb51.net/article/95685.htm" target="_blank" rel="noopener">java代理的实现</a></h3><ol>
+<li>代理出现的原因:一个客户不想或者不能够直接引用一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。</li>
+<li>代理分类:<ul>
+<li>静态代理:由程序员创建或由特定工具自动生成源代码，再对其编译。在程序运行前，代理类的.class文件就已经存在了。</li>
+<li>动态代理:在程序运行时，运用反射机制动态创建而成。</li>
+<li>其实动态代理就是spring中的aop的一种实现方法,在执行目标类方法之前进行一些动作,执行目标类方法之后,进行一些动作.</li>
+</ul>
+</li>
+</ol>
+<h2 id="SpringMVC"><a href="#SpringMVC" class="headerlink" title="SpringMVC"></a>SpringMVC</h2><h3 id="web开发架构"><a href="#web开发架构" class="headerlink" title="web开发架构"></a>web开发架构</h3><p>Front Controller：前端控制器，负责为表现层提供统一访问点，从而避免Model2中出现的重复的控制逻辑（由前端控制器统一回调相应的功能方法，如前边的根据submitFlag=login转调login方法）；并且可以为多个请求提供共用的逻辑（如准备上下文等等），将选择具体视图和具体的功能处理（如login里边封装请求参数到模型，并调用业务逻辑对象）分离。</p>
+<p>Application Controller：应用控制器，前端控制器分离选择具体视图和具体的功能处理之后，需要有人来管理，应用控制器就是用来选择具体视图技术（视图的管理）和具体的功能处理（页面控制器/命令对象/动作管理），一种策略设计模式的应用，可以很容易的切换视图/页面控制器，相互不产生影响。</p>
+<p>Page Controller(Command)：页面控制器/动作/处理器：功能处理代码，收集参数、封装参数到模型，转调业务对象处理模型，返回逻辑视图名交给前端控制器（和具体的视图技术解耦），由前端控制器委托给应用控制器选择具体的视图来展示，可以是命令设计模式的实现。页面控制器也被称为处理器或动作。</p>
+<p>Context：上下文，还记得Model2中为视图准备要展示的模型数据吗，我们直接放在request中（Servlet API相关），有了上下文之后，我们就可以将相关数据放置在上下文，从而与协议无关（如Servlet API）的访问/设置模型数据，一般通过ThreadLocal模式实现。</p>
+<h3 id="过程描述"><a href="#过程描述" class="headerlink" title="过程描述:"></a>过程描述:</h3><p><img src="/Users/admin/Documents/GitHub/MarkdownPhotos/BlogPhotos/springMVC.jpg" alt="SpringMVC"></p>
+<p>1、  首先用户发送请求————&gt;前端控制器，前端控制器根据请求信息（如URL）来决定选择哪一个页面控制器进行处理并把请求委托给它，即以前的控制器的控制逻辑部分；</p>
+<p>2、  页面控制器接收到请求后，进行功能处理，首先需要收集和绑定请求参数到一个对象，这个对象在Spring Web MVC中叫命令对象，并进行验证，然后将命令对象委托给业务对象进行处理；处理完毕后返回一个ModelAndView（模型数据和逻辑视图名）,</p>
+<p>3、  前端控制器收回控制权，然后根据返回的逻辑视图名，选择相应的视图进行渲染，并把模型数据传入以便视图渲染；图2-1中的步骤6、7；</p>
+<p>4、  前端控制器再次收回控制权，将响应返回给用户，图2-1中的步骤8；至此整个结束。</p>
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ol>
+<li>DispatcherServlet: 是前端控制器</li>
+<li>HandlerAdapter相当于controller,DispatcherServelet调用各种HandlerAdapter来实现任务分发给相关的业务逻辑</li>
+<li>HandlerInterceptor(处理器拦截)是一个接口，可以用来在Handler调用之前，之后，以及view呈现后可以做很多事情</li>
+<li>HandlerMapping是负责确定DispatcherServelet与controller之间映射的类，告诉DispatcherServelet，在请求到来后，由哪个controller来响应这个请求</li>
+<li>@ResponseBody @ResponseBody 表示该方法的返回结果直接写入 HTTP response body 中，一般在异步获取数据时使用【也就是AJAX】，在使用 @RequestMapping后，返回值通常解析为跳转路径，但是加上 @ResponseBody 后返回结果不会被解析为跳转路径，而是直接写入 HTTP response body 中。</li>
+<li>@RequestBody  @RequestBody是作用在形参列表上，用于将前台发送过来固定格式的数据【xml 格式或者 json等】封装为对应的 JavaBean 对象，封装时使用到的一个对象是系统默认配置的 HttpMessageConverter进行解析，然后封装到形参上。</li>
+<li>classpath:web项目编译后会有一个classpath路径，编译后的class文件，资源文件，依赖文件等都会放在这个路径下。param-value制定的这个配置文件时spring的配置文件，classpath意思就是说这个配置文件在classpath路径下。</li>
+<li>@GetMapping == @RequestMapping(Request.Method=Get)</li>
+<li><a href="https://my.oschina.net/kolbe/blog/509810" target="_blank" rel="noopener">@RequestMapping用法详解</a></li>
+<li>json数据请求和json数据返回过程 <img src="/Users/admin/Documents/GitHub/MarkdownPhotos/BlogPhotos/json.png" alt="json数据请求和json数据返回过程"></li>
+<li><a href="http://blog.csdn.net/bigtree_3721/article/details/70342189" target="_blank" rel="noopener">在springMVC中配置json</a></li>
+<li><a href="http://www.jb51.net/article/99740.htm" target="_blank" rel="noopener">springMVC获取请求参数详解</a></li>
+<li><a href="http://www.jb51.net/article/99740.htm" target="_blank" rel="noopener">springMVC如何支持delete和put请求</a></li>
+<li>List和array区别,array即数组,长度是定的,而list长度是可变的,都可存放重复的元素.</li>
+<li>VO和PO的区别:PO是存储在数据库中用于存放数据的,VO是在有必要的时候对数据库中的对象进行转化,然后再传回前端,方便前端进行读取和使用.</li>
+<li></li>
+</ol>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><ol>
+<li>后台启动：Redis-server /usr/local/etc/redis.conf</li>
+<li></li>
+</ol>
+<h2 id="spring中将数据导出为Excel"><a href="#spring中将数据导出为Excel" class="headerlink" title="spring中将数据导出为Excel"></a>spring中将数据导出为Excel</h2><ol>
+<li>添加POI依赖</li>
+<li><a href="https://blog.csdn.net/zsl129/article/details/52962074" target="_blank" rel="noopener">详细方法</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Elias 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Elias 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/16/计网知识点总结/" rel="next" title="计网知识点总结">
+                <i class="fa fa-chevron-left"></i> 计网知识点总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/26/MongoDB/" rel="prev" title="MongoDB">
+                MongoDB <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/author.png" alt="Elias">
+            
+              <p class="site-author-name" itemprop="name">Elias</p>
+              <p class="site-description motion-element" itemprop="description">Too simple, sometimes naive.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/bigbiggo999" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.jianshu.com/users/cd002734b69a/timeline" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.uisdc.com/" title="优设" target="_blank">优设</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.zhangxinxu.com/" title="张鑫旭" target="_blank">张鑫旭</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.alloyteam.com/nav/" title="Web前端导航" target="_blank">Web前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.36zhen.com/t?id=3448" title="前端书籍资料" target="_blank">前端书籍资料</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ife.baidu.com/" title="百度前端技术学院" target="_blank">百度前端技术学院</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wf.uisdc.com/cn/" title="google前端开发基础" target="_blank">google前端开发基础</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#implement-Serializable解释"><span class="nav-number">1.</span> <span class="nav-text">implement Serializable解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-结合Junit测试时配置文件路径问题"><span class="nav-number">2.</span> <span class="nav-text">spring 结合Junit测试时配置文件路径问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Springboot-中aop"><span class="nav-number">3.</span> <span class="nav-text">Springboot 中aop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sping中IOC和DI"><span class="nav-number">4.</span> <span class="nav-text">Sping中IOC和DI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注解笔记"><span class="nav-number">5.</span> <span class="nav-text">注解笔记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java代理的实现"><span class="nav-number">6.</span> <span class="nav-text">java代理的实现</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC"><span class="nav-number"></span> <span class="nav-text">SpringMVC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web开发架构"><span class="nav-number">1.</span> <span class="nav-text">web开发架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程描述"><span class="nav-number">2.</span> <span class="nav-text">过程描述:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-number">2.1.</span> <span class="nav-text">基本概念</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number"></span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring中将数据导出为Excel"><span class="nav-number"></span> <span class="nav-text">spring中将数据导出为Excel</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Elias</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

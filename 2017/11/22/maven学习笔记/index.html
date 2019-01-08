@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/author.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="maven,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="maven">
+<meta name="keywords" content="maven">
+<meta property="og:type" content="article">
+<meta property="og:title" content="maven学习笔记">
+<meta property="og:url" content="http://yoursite.com/2017/11/22/maven学习笔记/index.html">
+<meta property="og:site_name" content="Never Stop">
+<meta property="og:description" content="maven">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-22T12:22:39.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="maven学习笔记">
+<meta name="twitter:description" content="maven">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/22/maven学习笔记/">
+
+
+
+
+
+  <title>maven学习笔记 | Never Stop</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Never Stop</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Elias Blog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/22/maven学习笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Elias">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Never Stop">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">maven学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-22T20:22:39+08:00">
+                2017-11-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/maven/" itemprop="url" rel="index">
+                    <span itemprop="name">maven</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>maven</strong></p>
+<a id="more"></a>
+<h2 id="Maven构建生命周期"><a href="#Maven构建生命周期" class="headerlink" title="Maven构建生命周期"></a>Maven构建生命周期</h2><ol>
+<li>clean.         </li>
+<li>default.        </li>
+<li>site. </li>
+</ol>
+<p>Maven中内置了三个构建生命周期：<code>default</code>，<code>clean和site</code><br><strong>default</strong>生命周期处理工程的部署，<strong>clean</strong>生命周期处理工程的清理，而<strong>site</strong>生命周期则负责创建工程的站点文档. </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0</span></span></span><br><span class="line"><span class="tag"><span class="string">    http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.companyname.projectgroup<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>project<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-antrun-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">id</span>&gt;</span>id.clean<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">phase</span>&gt;</span>clean<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">goal</span>&gt;</span>run<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tasks</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">echo</span>&gt;</span>clean phase<span class="tag">&lt;/<span class="name">echo</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tasks</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">execution</span>&gt;</span>     </span><br><span class="line">   <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个<em>pom.xml</em>文件将<strong>echo clean phase</strong> 这个<strong>task</strong>绑定到<strong>run</strong>这个<em>goals</em>中。</p>
+<p>用mvn创建工程<em>附带四个参数</em><br>    mvn archetype:generate<br>    -DgroupId=com.mkyong<br>    -DartifactId=NumberGenerator -DarchetypeArtifactId=maven-archetype-quickstart<br>    -DinteractiveMode=false</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-DgroupId</td>
+<td style="text-align:left">包名</td>
+</tr>
+<tr>
+<td style="text-align:left">-DartifactId</td>
+<td style="text-align:left">项目名</td>
+</tr>
+<tr>
+<td style="text-align:left">-DarchetypeArtifactId</td>
+<td style="text-align:left">项目的类型</td>
+</tr>
+<tr>
+<td style="text-align:left">-DinteractiveMode</td>
+<td style="text-align:left">是否使用交互模式</td>
+</tr>
+</tbody>
+</table>
+<p></p><h1><a name="Lifecycle_Reference"></a>生命周期参考</h1><p></p>
+<p></p><p>下面的列表就是default，clean和site生命周期中的所有构建阶段，他们将会按照他们定义的顺序去执行。<br><br><strong>Clean生命周期</strong></p><p></p>
+<table class="table table-striped" border="1"><br><tbody><br><tr class="a"><br><td align="left"><tt>pre-clean</tt></td><br><td align="left">执行一些清理前需要完成的工作</td><br></tr><br><tr class="b"><br><td align="left"><tt>clean</tt></td><br><td align="left">清理上一次构建生成的文件</td><br></tr><br><tr class="a"><br><td align="left"><tt>post-clean</tt></td><br><td align="left">执行一些清理后需要完成的工作</td><br></tr><br></tbody><br></table><br><p><strong>Default生命周期</strong></p><br><table class="table table-striped" border="1"><br><tbody><br><tr class="a"><br><td align="left"><tt>validate</tt></td><br><td align="left">校验项目是否正确以及所有重要信息是否可用</td><br></tr><br><tr class="b"><br><td align="left"><tt>initialize</tt></td><br><td align="left">初始化构建状态，例如：设置属性或者创建目录</td><br></tr><br><tr class="a"><br><td align="left"><tt>generate-sources</tt></td><br><td align="left">生成编译中包含的源代码</td><br></tr><br><tr class="b"><br><td align="left"><tt>process-sources</tt></td><br><td align="left">处理项目资源文件，例如过滤一些值</td><br></tr><br><tr class="a"><br><td align="left"><tt>generate-resources</tt></td><br><td align="left">生成包中包含的资源</td><br></tr><br><tr class="b"><br><td align="left"><tt>process-resources</tt></td><br><td align="left">复制并处理资源到目标目录，准备打包</td><br></tr><br><tr class="a"><br><td align="left"><tt>compile</tt></td><br><td align="left">编译项目中的源代码</td><br></tr><br><tr class="b"><br><td align="left"><tt>process-classes</tt></td><br><td align="left">后处理编译生成的文件，例如：对class文件进行字节码增强</td><br></tr><br><tr class="a"><br><td align="left"><tt>generate-test-sources</tt></td><br><td align="left">生成编译中包含的测试源码</td><br></tr><br><tr class="b"><br><td align="left"><tt>process-test-sources</tt></td><br><td align="left">处理测试源代码，例如：过滤一些值</td><br></tr><br><tr class="a"><br><td align="left"><tt>generate-test-resources</tt></td><br><td align="left">创建测试用的资源文件</td><br></tr><br><tr class="b"><br><td align="left"><tt>process-test-resources</tt></td><br><td align="left">复制并处理资源到目标测试目录</td><br></tr><br><tr class="a"><br><td align="left"><tt>test-compile</tt></td><br><td align="left">编译测试源码放入测试目标文件夹中</td><br></tr><br><tr class="b"><br><td align="left"><tt>process-test-classes</tt></td><br><td align="left">后处理测试编译生成的文件，例如：对class文件进行字节码增强，对Maven 2.0.5及以上有效</td><br></tr><br><tr class="a"><br><td align="left"><tt>test</tt></td><br><td align="left">使用单元测试框架运行测试。测试代码不会被打包或者部署。</td><br></tr><br><tr class="b"><br><td align="left"><tt>prepare-package</tt></td><br><td align="left">执行必要的操作，在真正打包前准备一个包。这通常会产生一个未打包、处理过版本。（Maven 2.1及以上）</td><br></tr><br><tr class="a"><br><td align="left"><tt>package</tt></td><br><td align="left">接受编译好的代码，打包成可发布的格式，如：JAR</td><br></tr><br><tr class="b"><br><td align="left"><tt>pre-integration-test</tt></td><br><td align="left">在集成测试执行前进行些必要的操作。这也许会涉及相关的东西，例如安装必须的环境。</td><br></tr><br><tr class="a"><br><td align="left"><tt>integration-test</tt></td><br><td align="left">处理并将包文件部署到继承测试运行的环境</td><br></tr><br><tr class="b"><br><td align="left"><tt>post-integration-test</tt></td><br><td align="left">继承测试执行之后进行的必要操作。这可能包含了清理环境操作。</td><br></tr><br><tr class="a"><br><td align="left"><tt>verify</tt></td><br><td align="left">运行一些校验去验证包是否有效，是否符合质量标准。</td><br></tr><br><tr class="b"><br><td align="left"><tt>install</tt></td><br><td align="left">安装包到本地仓库，供本地其他项目依赖使用</td><br></tr><br><tr class="a"><br><td align="left"><tt>deploy</tt></td><br><td align="left">将最终的包复制到远程仓库，供其他开发人员和Maven项目使用</td><br></tr><br></tbody><br></table><br><p><strong> Site生命周期</strong></p><br><table class="table table-striped" border="1"><br><tbody><br><tr class="a"><br><td align="left"><tt>pre-site</tt></td><br><td align="left">执行一些在生成站点之前需要完成的工作</td><br></tr><br><tr class="b"><br><td align="left"><tt>site</tt></td><br><td align="left">生成项目的站点文档</td><br></tr><br><tr class="a"><br><td align="left"><tt>post-site</tt></td><br><td align="left">执行一些在生成站点之后需要完成的工作</td><br></tr><br><tr class="b"><br><td align="left"><tt>site-deploy</tt></td><br><td align="left">将生成的站点文件发布到远程服务器上</td><br></tr><br></tbody><br></table>
+
+
+<p></p><h2>5. 完整的 clean, default, site build lifecycle</h2><p></p>
+<p><ul></ul></p>
+<p><li>clean lifecycle</li><br></p>
+<table><br><thead><br><tr><br><th>phase</th><br><th>function</th><br></tr><br></thead><br><tbody><br><tr><br><td>pre-clean    execute</td><br><td>execute processes needed prior to the actual project cleaning</td><br></tr><br><tr><br><td>clean</td><br><td>remove all files generated by the previous build</td><br></tr><br><tr><br><td>post-clean</td><br><td>execute processes needed to finalize the project cleaning</td><br></tr><br></tbody><br></table><br><ul><br><li>default lifecycle</li><br></ul><br><table><br><thead><br><tr><br><th>phase</th><br><th>function</th><br></tr><br></thead><br><tbody><br><tr><br><td>validate</td><br><td>validate the project is correct and all necessary information is available.</td><br></tr><br><tr><br><td>initialize</td><br><td>initialize build state, e.g. set properties or create directories.</td><br></tr><br><tr><br><td>generate-sources</td><br><td>generate any source code for inclusion in compilation.</td><br></tr><br><tr><br><td>process-sources</td><br><td>process the source code, for example to filter any values.</td><br></tr><br><tr><br><td>generate-resources</td><br><td>generate resources for inclusion in the package.</td><br></tr><br><tr><br><td>process-resources</td><br><td>copy and process the resources into the destination directory, ready for packaging.</td><br></tr><br><tr><br><td>compile</td><br><td>compile the source code of the project.</td><br></tr><br><tr><br><td>process-classes</td><br><td>post-process the generated files from compilation, for example to do bytecode enhancement on Java classes.</td><br></tr><br><tr><br><td>generate-test-sources</td><br><td>generate any test source code for inclusion in compilation.</td><br></tr><br><tr><br><td>process-test-sources</td><br><td>process the test source code, for example to filter any values.</td><br></tr><br><tr><br><td>generate-test-resources</td><br><td>create resources for testing.</td><br></tr><br><tr><br><td>process-test-resources</td><br><td>copy and process the resources into the test destination directory.</td><br></tr><br><tr><br><td>test-compile</td><br><td>compile the test source code into the test destination directory</td><br></tr><br><tr><br><td>process-test-classes</td><br><td>post-process the generated files from test compilation, for example to do bytecode enhancement on Java classes. For Maven 2.0.5 and above.</td><br></tr><br><tr><br><td>test</td><br><td>run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.</td><br></tr><br><tr><br><td>prepare-package</td><br><td>perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package. (Maven 2.1 and above)</td><br></tr><br><tr><br><td>package</td><br><td>take the compiled code and package it in its distributable format, such as a JAR.</td><br></tr><br><tr><br><td>pre-integration-test    perform</td><br><td>actions required before integration tests are executed. This may involve things such as setting up the required environment.</td><br></tr><br><tr><br><td>integration-test</td><br><td>process and deploy the package if necessary into an environment where integration tests can be run.</td><br></tr><br><tr><br><td>post-integration-test</td><br><td>perform actions required after integration tests have been executed. This may including cleaning up the environment.</td><br></tr><br><tr><br><td>verify</td><br><td>run any checks to verify the package is valid and meets quality criteria.</td><br></tr><br><tr><br><td>install</td><br><td>install the package into the local repository, for use as a dependency in other projects locally.</td><br></tr><br><tr><br><td>deploy</td><br><td>done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects.</td><br></tr><br></tbody><br></table><br><ul><br><li>site lifecycle</li><br></ul><br><table><br><thead><br><tr><br><th>phase</th><br><th>function</th><br></tr><br></thead><br><tbody><br><tr><br><td>pre-site</td><br><td>execute processes needed prior to the actual project site generation</td><br></tr><br><tr><br><td>site</td><br><td>generate the project’s site documentation</td><br></tr><br><tr><br><td>post-site</td><br><td>execute processes needed to finalize the site generation, and to prepare for site deployment</td><br></tr><br><tr><br><td>site-deploy</td><br><td>deploy the generated site documentation to the specified web server</td><br></tr><br></tbody><br></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Elias 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Elias 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/maven/" rel="tag"># maven</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/22/pthread/" rel="next" title="线程的创建和管理">
+                <i class="fa fa-chevron-left"></i> 线程的创建和管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/22/jsp九大内置对象/" rel="prev" title="Jsp九大内置对象">
+                Jsp九大内置对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/author.png" alt="Elias">
+            
+              <p class="site-author-name" itemprop="name">Elias</p>
+              <p class="site-description motion-element" itemprop="description">Too simple, sometimes naive.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/bigbiggo999" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.jianshu.com/users/cd002734b69a/timeline" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.uisdc.com/" title="优设" target="_blank">优设</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.zhangxinxu.com/" title="张鑫旭" target="_blank">张鑫旭</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.alloyteam.com/nav/" title="Web前端导航" target="_blank">Web前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.36zhen.com/t?id=3448" title="前端书籍资料" target="_blank">前端书籍资料</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ife.baidu.com/" title="百度前端技术学院" target="_blank">百度前端技术学院</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wf.uisdc.com/cn/" title="google前端开发基础" target="_blank">google前端开发基础</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven构建生命周期"><span class="nav-number">1.</span> <span class="nav-text">Maven构建生命周期</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number"></span> <span class="nav-text">生命周期参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">5. 完整的 clean, default, site build lifecycle</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Elias</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
